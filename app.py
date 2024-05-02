@@ -19,31 +19,50 @@ def home():
     response_2 = requests.get(weather_url).json()
     # print(response)
 
+    # Weather Data
+    location = response_2.get('name'),
+    timezone = response_2.get('timezone')
+    timestamp =response_2.get('dt')
+    date_time = datetime.fromtimestamp(timestamp)
+    local_timestamp = ""
+    description = response_2.get('weather')[0].get('description')
+    temp_k = response_2.get('main').get('temp')
+    temp_c = temp_k - 273.15
+    wind_speed = response_2.get('wind').get('speed')
+    icon = response_2.get('weather')[0].get('icon')
+    icon_url = "http://openweathermap.org/img/w/" + icon + ".png"
+
+    my_list = [api_key, city, weather_url, response_2, location, timezone, timestamp, date_time, local_timestamp, description,
+               temp_k, temp_c, wind_speed, icon, icon_url]
+    print(my_list)
+
+
+    # Forecast Data
     index = 0
-    forecast_list = response_1['list_1']
-    weather_list = response_2['list_2']
+    forecast_list = response_1['list']
+    print("************************\n")
+    print(forecast_list)
+    print(len(forecast_list))
     while index < len(forecast_list):
         # Time
         print(forecast_list[index]['dt_txt'])
-        print('server_time ' + forecast['dt_txt'])
-        print('local ' + str(datetime.fromtimestamp(forecast['dt'])))
+        # Put here how to do the day
         # Temperature
         print(forecast_list[index]['main']['temp'] - 273.15)
-        print(weather_list[index]['main']['temp_max'] - 273.15)
-        print(weather_list[index]['main']['temp_max'] - 273.15)
-        print(weather_list[index]['main']['feels_like'] - 273.15)
+        print(forecast_list[index]['main']['temp_max'] - 273.15)
+        print(forecast_list[index]['main']['temp_max'] - 273.15)
+        print(forecast_list[index]['main']['feels_like'] - 273.15)
         # Additional
-        print(weather_list[index]['wind']['speed'])
-        print(weather_list[index]['main']['humidity'])
-        print(weather_list[index]['main']['pressure'])
+        print(forecast_list[index]['wind']['speed'])
+        print(forecast_list[index]['main']['humidity'])
+        print(forecast_list[index]['main']['pressure'])
         # Description and Icon
-        print(weather_list[index]['weather']['description'])
-        print(weather_list[index]['weather']['icon'])
-        print("http://openweathermap.org/img/w/" + icon + ".png";)
-
+        print(forecast_list[index]['weather'][0]['description'])
+        print(forecast_list[index]['weather'][0]['icon'])
+        print("http://openweathermap.org/img/w/" + icon + ".png")
         index += 8
 
-    return render_template('home.html', forecast_data=forecast_data)
+    return render_template('home.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
