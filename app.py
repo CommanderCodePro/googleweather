@@ -20,21 +20,21 @@ def home():
     # print(response)
 
     # Weather Data
-    weather_location = response_2.get('name'),
-    weather_timezone = response_2.get('timezone')
-    weather_timestamp =response_2.get('dt')
-    weather_date_time = datetime.fromtimestamp(timestamp)
-    weather_local_timestamp = ""
-    weather_description = response_2.get('weather')[0].get('description')
-    weather_temp_k = response_2.get('main').get('temp')
-    weather_temp_c = temp_k - 273.15
-    weather_wind_speed = response_2.get('wind').get('speed')
-    weather_icon = response_2.get('weather')[0].get('icon')
-    weather_icon_url = "http://openweathermap.org/img/w/" + icon + ".png"
-
-    my_list = [api_key, city, weather_url, response_2, weather_location, weather_timezone, weather_timestamp, weather_date_time, weather_local_timestamp, weather_description,
-               weather_temp_k, weather_temp_c, weather_wind_speed, weather_icon, weather_icon_url]
-    print(my_list)
+    # weather_location = response_2.get('name'),
+    # weather_timezone = response_2.get('timezone')
+    # weather_timestamp =response_2.get('dt')
+    # weather_date_time = datetime.fromtimestamp(timestamp)
+    # weather_local_timestamp = ""
+    # weather_description = response_2.get('weather')[0].get('description')
+    # weather_temp_k = response_2.get('main').get('temp')
+    # weather_temp_c = temp_k - 273.15
+    # weather_wind_speed = response_2.get('wind').get('speed')
+    # weather_icon = response_2.get('weather')[0].get('icon')
+    # weather_icon_url = "http://openweathermap.org/img/w/" + icon + ".png"
+    #
+    # my_list = [api_key, city, weather_url, response_2, weather_location, weather_timezone, weather_timestamp, weather_date_time, weather_local_timestamp, weather_description,
+    #            weather_temp_k, weather_temp_c, weather_wind_speed, weather_icon, weather_icon_url]
+    # print(my_list)
 
 
     # Forecast Data
