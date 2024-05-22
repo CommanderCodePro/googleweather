@@ -1,6 +1,4 @@
-Html
-
-​​<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
    <meta charset="UTF-8">
@@ -12,20 +10,25 @@ Html
 
 
 <div class="card" style="width: 100%;">
- <div class="card-body">
-     <div class="row">
-       <div class="col">
-         1 of 3
-       </div>
-       <div class="col-6">
-         2 of 3 (wider)
-       </div>
-       <div class="col">
-         3 of 3
-       </div>
-     </div>
- </div>
-</div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col">
+                    <img src="{{ weather_data.icon_url }}" alt="Weather Icon" style="width: 100px;" style="height: 100px;">
+                    <p>{{ weather_data.temp }}°C</p>
+                </div>
+                <div class="col-6">
+                    <p>{{ weather_data.humidity }}%</p>
+                    <p>{{ weather_data.wind_speed }} m/s</p>
+                    <p>{{ weather_data.pressure }} hPa</p>
+                </div>
+                <div class="col">
+                    <h3><strong>Weather</strong></h3>
+                    <p>{{ weather_data.date_time }}</p>
+                    <p>{{ weather_data.description }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 <div class="card" style="width: 100%;">
@@ -42,6 +45,34 @@ Html
  </li>
    <li class="nav-item">
    <a class="nav-link" aria-current="page" href="#">Week's Temperature</a>
+       <div>
+  <canvas id="myChart"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  const ctx = document.getElementById('myChart');
+
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+      datasets: [{
+        label: '# of Votes',
+        data: [12, 19, 3, 5, 2, 3],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+</script>
  </li>
  <li class="nav-item">
    <a class="nav-link" href="#">Week's Precipitation</a>
@@ -58,10 +89,11 @@ Html
     <div class="row">
       {% for data in forecast_data %}
       <div class="col">
-        <p>{{ data.dt_text }}</p>
+        <p>{{ data.day_name }}</p>
+        <img src="{{ data.icon_url }}" alt="Weather Icon" style="width: 100px;" style="height: 200px;">
         <p>{{ data.temp }} °C</p>
         <p>{{ data.description }}</p>
-        <img src="{{ data.icon_url }}" alt="Weather Icon">
+        <p>{{ data.dt_text }}</p>
       </div>
       {% endfor %}
     </div>
