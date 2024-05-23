@@ -15,7 +15,9 @@ def home():
         return "Location not found."
 
     weather_url = "http://api.openweathermap.org/data/2.5/weather?q=" + location_response + "&APPID=" + api_key
+    print(weather_url)
     forecast_url = "https://api.openweathermap.org/data/2.5/forecast?q=" + location_response + "&APPID=" + api_key
+    print(forecast_url)
 
     response_1 = requests.get(forecast_url).json()
     response_2 = requests.get(weather_url).json()
@@ -54,26 +56,36 @@ def home():
 
     while index < len(forecast_list):
         dt_text = forecast_list[index]['dt_txt']
-        temp = round(forecast_list[index]['main']['temp'] - 273.15, 2)
-        temp_max = round(forecast_list[index]["main"]['temp_max'] - 273.15, 2)
-        temp_min = round(forecast_list[index]["main"]['temp_min'] - 273.15, 2)
+        # Temperature
+        temp = round(forecast_list[index]['main']['temp'] - 273.15)
+        temp_min = round(forecast_list[index]["main"]['temp_min'] - 273.15)
+        temp_max = round(forecast_list[index]["main"]['temp_max'] - 273.15)
         description = forecast_list[index]['weather'][0]['description']
         icon = forecast_list[index]['weather'][0]['icon']
+
+        # Additional
+        wind_speed = forecast_list[index]['wind']['speed']
+        humidity = forecast_list[index]['main']['humidity']
+        pressure = forecast_list[index]['main']['pressure']
 
         # Convert the string to a datetime object
         date_object = datetime.strptime(dt_text, '%Y-%m-%d %H:%M:%S')
         day_name = date_object.strftime('%A')
 
-        forecast_entry = {
+        forecast_dict = {
             "dt_text": dt_text,
             "temp": temp,
-            "temp_max": temp_max,
             "temp_min": temp_min,
+            "temp_max": temp_max,
             "description": description,
+            "wind_speed": wind_speed,
+            "humidity": humidity,
+            "pressure": pressure,
             "icon_url": "http://openweathermap.org/img/w/" + icon + ".png",
-            "day_name": day_name
+            "day_name": day_name,
+            "date_object": date_object,
         }
-        forecast_data.append(forecast_entry)
+        forecast_data.append(forecast_dict)
         index += 8
 
     return render_template('home.html', weather_data=weather_data, forecast_data=forecast_data)

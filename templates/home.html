@@ -13,13 +13,13 @@
         <div class="card-body">
             <div class="row">
                 <div class="col">
-                    <img src="{{ weather_data.icon_url }}" alt="Weather Icon" style="width: 100px;" style="height: 100px;">
+                    <img src="{{ weather_data.icon_url }}" alt="Weather Icon" style="width: 150px;" style="height: 300px;">
                     <p>{{ weather_data.temp }}°C</p>
                 </div>
                 <div class="col-6">
-                    <p>{{ weather_data.humidity }}%</p>
-                    <p>{{ weather_data.wind_speed }} m/s</p>
-                    <p>{{ weather_data.pressure }} hPa</p>
+                    <p>Humidity : {{ weather_data.humidity }}%</p>
+                    <p>Wind Speed : {{ weather_data.wind_speed }} m/s</p>
+                    <p>Pressure : {{ weather_data.pressure }} hPa</p>
                 </div>
                 <div class="col">
                     <h3><strong>Weather</strong></h3>
@@ -32,58 +32,107 @@
 
 
 <div class="card" style="width: 100%;">
- <div class="card-body">
-<ul class="nav nav-tabs">
- <li class="nav-item">
-   <a class="nav-link active" aria-current="page" href="#">Today's Temperature</a>
- </li>
- <li class="nav-item">
-   <a class="nav-link" href="#">Today's Precipitation</a>
- </li>
- <li class="nav-item">
-   <a class="nav-link" href="#">Today's Wind</a>
- </li>
-   <li class="nav-item">
-   <a class="nav-link" aria-current="page" href="#">Week's Temperature</a>
-       <div>
-  <canvas id="myChart"></canvas>
+    <div class="card-body">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#today-temp" data-bs-toggle="tab">Today's Temperature</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#today-wind" data-bs-toggle="tab">Today's Wind</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#week-temp" data-bs-toggle="tab">Week's Temperature</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#week-wind" data-bs-toggle="tab">Week's Wind</a>
+            </li>
+        </ul>
+
+        <div class="tab-content mt-3">
+            <div class="tab-pane fade show active" id="today-temp">
+                <!-- Today's Temperature content -->
+            </div>
+            <div class="tab-pane fade" id="today-wind">
+                <!-- Today's Wind content -->
+            </div>
+            <div class="tab-pane fade" id="week-temp">
+                <div>
+                    <canvas id="week_temperature_Chart"></canvas>
+                </div>
+                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                <script>
+                    const ctx1 = document.getElementById('week_temperature_Chart').getContext('2d');
+                    const labelsTemp = [
+                        {% for forecast in forecast_data %}
+                        "{{ forecast.day_name }}",
+                        {% endfor %}
+                    ];
+                    const temps = [
+                        {% for forecast in forecast_data %}
+                        {{ forecast.temp }},
+                        {% endfor %}
+                    ];
+                    new Chart(ctx1, {
+                        type: 'line',
+                        data: {
+                            labels: labelsTemp,
+                            datasets: [{
+                                label: 'Temperature (°C)',
+                                data: temps,
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                </script>
+            </div>
+            <div class="tab-pane fade" id="week-wind">
+                <div>
+                    <canvas id="week_wind_Chart"></canvas>
+                </div>
+                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                <script>
+                    const ctx2 = document.getElementById('week_wind_Chart').getContext('2d');
+                    const labelsWind = [
+                        {% for forecast in forecast_data %}
+                        "{{ forecast.day_name }}",
+                        {% endfor %}
+                    ];
+                    const windSpeeds = [
+                        {% for forecast in forecast_data %}
+                        {{ forecast.wind_speed }},
+                        {% endfor %}
+                    ];
+                    new Chart(ctx2, {
+                        type: 'line',
+                        data: {
+                            labels: labelsWind,
+                            datasets: [{
+                                label: 'Wind Speed (m/s)',
+                                data: windSpeeds,
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<script>
-  const ctx = document.getElementById('myChart');
-
-  new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-      datasets: [{
-        label: '# of Votes',
-        data: [12, 19, 3, 5, 2, 3],
-        borderWidth: 1
-      }]
-    },
-    options: {
-      scales: {
-        y: {
-          beginAtZero: true
-        }
-      }
-    }
-  });
-</script>
- </li>
- <li class="nav-item">
-   <a class="nav-link" href="#">Week's Precipitation</a>
- </li>
- <li class="nav-item">
-   <a class="nav-link" href="#">Week's Wind</a>
- </li>
-</ul>
-
-</div>
-</div>
 <div class="card" style="width: 100%;">
   <div class="card-body">
     <div class="row">
@@ -100,7 +149,6 @@
   </div>
 </div>
 
-
-{{ forecast_data }}
 </body>
+
 </html>
