@@ -35,7 +35,7 @@
     <div class="card-body">
         <ul class="nav nav-tabs">
             <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#today-temp" data-bs-toggle="tab">Today's Temperature</a>
+                <a class="nav-link active" aria-current="page" href="p" data-bs-toggle="tab">Today's Temperature</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#today-wind" data-bs-toggle="tab">Today's Wind</a>
@@ -140,9 +140,10 @@
       <div class="col">
         <p>{{ data.day_name }}</p>
         <img src="{{ data.icon_url }}" alt="Weather Icon" style="width: 100px;" style="height: 200px;">
-        <p>{{ data.temp }} °C</p>
-        <p>{{ data.description }}</p>
-        <p>{{ data.dt_text }}</p>
+        <p> Temperature: {{ data.temp }} °C</p>
+        <p> Rain: {{ data.rain }}</p>
+        <p> Description: {{ data.description }}</p>
+        <p> Date: {{ data.dt_text }}</p>
       </div>
       {% endfor %}
     </div>
