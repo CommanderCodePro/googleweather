@@ -31,6 +31,7 @@ def home():
             weather_icon_url = f"http://openweathermap.org/img/w/{weather_icon}.png"
             weather_pressure = weather_list['main']['pressure']
             weather_humidity = weather_list['main']['humidity']
+            location_response = requests.get(city).json().get("city")
 
             weather_data = {
                 'location': weather_location,
@@ -38,6 +39,7 @@ def home():
                 'description': weather_description,
                 'temp': weather_temp,
                 'wind_speed': weather_wind_speed,
+                "location_response": location_response,
                 'icon_url': weather_icon_url,
                 'pressure': weather_pressure,
                 'humidity': weather_humidity
@@ -63,6 +65,7 @@ def home():
                     rain = forecast_list[index]['rain']
                 else:
                     rain = "No Rain"
+
 
                 # Additional
                 wind_speed = forecast_list[index]['wind']['speed']
