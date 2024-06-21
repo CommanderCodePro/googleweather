@@ -6,10 +6,13 @@ app = Flask(__name__)
 
 @app.route('/')
 def home():
+    # Api key that is used for weather data and forecast data that is custom from openweather
+    # Users that are utilising this code need to put their own api_key
     api_key = "8649ce5dac17fa487efbd14f7cd30f9e"
+    # Api key for fetching the ip adress of the user
     city = "http://ip-api.com/json/"
     location_response = requests.get(city).json().get("city")
-
+    # Weather and forecast url that is from openweatherapi
     if location_response:
         weather_url = f"http://api.openweathermap.org/data/2.5/weather?q={location_response}&APPID={api_key}"
         print(weather_url)
@@ -19,6 +22,7 @@ def home():
         response_1 = requests.get(forecast_url).json()
         response_2 = requests.get(weather_url).json()
 
+        # Data being fetched from open weather api (weather_api)
         if 'list' in response_1 and 'main' in response_2:
             # Weather Data
             weather_list = response_2
@@ -33,6 +37,7 @@ def home():
             weather_humidity = weather_list['main']['humidity']
             location_response = requests.get(city).json().get("city")
 
+            # Weather Data dict
             weather_data = {
                 'location': weather_location,
                 'timezone': weather_timezone,
@@ -40,6 +45,8 @@ def home():
                 'temp': weather_temp,
                 'wind_speed': weather_wind_speed,
                 "location_response": location_response,
+
+
                 'icon_url': weather_icon_url,
                 'pressure': weather_pressure,
                 'humidity': weather_humidity
@@ -76,6 +83,7 @@ def home():
                 date_object = datetime.strptime(dt_text, '%Y-%m-%d %H:%M:%S')
                 day_name = date_object.strftime('%A')
 
+                # Forecast Dict
                 forecast_dict = {
                     "dt_text": dt_text,
                     "temp": temp,
@@ -90,6 +98,7 @@ def home():
                     "day_name": day_name,
                     "date_object": date_object,
                 }
+                # Data being appended every 8 as there are 8 weather data for each day
                 forecast_data.append(forecast_dict)
                 index += 8
 
@@ -98,13 +107,7 @@ def home():
             print("Error fetching weather data.")
     else:
         print("Location not found.")
-
-@app.route('/test')
-def test():
-    return render_template('test.html')
-
-
-
+0
 
 if __name__ == '__main__':
     app.run(debug=True)
